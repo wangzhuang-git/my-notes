@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<hdevelop file_version="1.1" halcon_version="12.0">
+<procedure name="main">
+<interface/>
+<body>
+<c></c>
+<c></c>
+<c></c>
+<c></c>
+<c></c>
+<c></c>
+<c></c>
+<c>*求中心线</c>
+<l>lines_gauss (image, Lines, 1.5, 3, 8, 'light', 'true', 'bar-shaped', 'true')</l>
+<c></c>
+<c>*区域作差</c>
+<l>difference (, , RegionDifference)</l>
+<c>*前region-后region</c>
+<c></c>
+<c>*区域求和</c>
+<l>union2 (, , RegionUnion)</l>
+<c></c>
+<c>*区域集合</c>
+<l>concat_obj (Lines, Lines, ObjectsConcat)</l>
+<c>*两者合并（区别是合并成两个区域）</c>
+<c></c>
+<c>*求圆度</c>
+<l>circularity (ObjectsConcat, Circularity)</l>
+<c></c>
+<c>*图像的边缘</c>
+<l>edges_sub_pix (ImageRoberts, Edges, 'canny', 1, 20, 40)</l>
+<c></c>
+<c>*排序</c>
+<l>sort_region (ObjectsConcat, SortedRegions, 'first_point', 'true', 'row')</l>
+<c></c>
+<c></c>
+<c></c>
+<c></c>
+<c>*提取区域轮廓</c>
+<l>read_image (Image, 'fabrik')</l>
+<l>rgb1_to_gray (Image, GrayImage)</l>
+<l>threshold (GrayImage, Region, 128, 255)</l>
+<l>connection (Region, ConnectedRegions)</l>
+<l>select_shape (ConnectedRegions, SelectedRegions, 'area', 'and', area_low,area_high )</l>
+<c>*轮廓提取</c>
+<l>edges_sub_pix (GrayImage, Edges1, 'canny', 1, 20, 40)</l>
+<c>*轮廓筛选（长度等特征）</c>
+<l>select_shape_xld (Edges1, SelectedXLD, 'area', 'and', 150, 99999)</l>
+<c>*轮廓连接</c>
+<l>union_adjacent_contours_xld (Edges1, UnionContours, 10, 1, 'attr_keep')</l>
+<c></c>
+<c></c>
+<c>*分割xld</c>
+<l>segment_contours_xld (UnionContours, ContoursSplit, 'lines_circles', 5, 4, 2)</l>
+<c></c>
+<c></c>
+<c>1</c>
+</body>
+<docu id="main">
+<parameters/>
+</docu>
+</procedure>
+</hdevelop>
