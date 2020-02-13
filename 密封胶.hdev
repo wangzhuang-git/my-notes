@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<hdevelop file_version="1.1" halcon_version="12.0">
+<procedure name="main">
+<interface/>
+<body>
+<l>dev_close_window ()</l>
+<l>dev_open_window (0, 0, 512, 512, 'black', WindowHandle)</l>
+<c></c>
+<l>list_files ('D:/腾讯/微信/文件/WeChat Files/wxid_v8pj85fbpehv21/FileStorage/File/2020-01/防尘胶图片', 'files', Files)</l>
+<l>a:=[]</l>
+<l>b:=[]</l>
+<l>for i := 0 to |Files|-1 by 1</l>
+<c>    *读取图像</c>
+<l>    read_image (Image, Files[i])</l>
+<c>    *图像处理</c>
+<l>    rgb1_to_gray (Image, GrayImage) </l>
+<l>    threshold (GrayImage, Regions, 0, 19)</l>
+<l>    connection (Regions, ConnectedRegions)</l>
+<l>    closing_circle (ConnectedRegions, RegionClosing, 3.5)</l>
+<c>    *选择区域</c>
+<l>    select_shape (RegionClosing, SelectedRegions, 'area', 'or', 110656, 154918)</l>
+<l>    area_center (SelectedRegions, Area, Row, Column)</l>
+<c></c>
+<c>    *判断OK与NG</c>
+<l>    if (Area&gt;120000)</l>
+<l>        a:=[a,i+'.OK'+'\n']</l>
+<l>    else</l>
+<l>        a:=[a,i+'.NG'+'\n']</l>
+<c> </c>
+<l>    endif</l>
+<l>    disp_message (WindowHandle, Area, 'window', 0, 0, 'black', 'true')</l>
+<l>    disp_message (WindowHandle, a[i], 'window', 0, 60, 'black', 'true')</l>
+<l>endfor </l>
+<l>open_file ('1.txt', 'output', FileHandle)</l>
+<l>fwrite_string (FileHandle, a)</l>
+<l>fnew_line (FileHandle)</l>
+<l>close_file (FileHandle)</l>
+</body>
+<docu id="main">
+<parameters/>
+</docu>
+</procedure>
+</hdevelop>
