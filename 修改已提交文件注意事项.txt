@@ -1,0 +1,12 @@
+1.文件修改
+2.git status   查看情况
+3.git add 文件名     把文件加到仓库
+4.git commit -m "对文件的描述"    提交文件
+5.git push origin master（此处为默认分支，具体情况需修改）    提交到远程仓库
+
+
+注意：git status随时使用查看情况，
+随时使用的还有：1️.git branch（查看分支） 
+	 2.git tag （查看标签）
+	3.git log (查看历史）
+	
